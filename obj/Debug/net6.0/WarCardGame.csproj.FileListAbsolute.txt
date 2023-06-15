@@ -1,0 +1,15 @@
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\WarCardGame.csproj.AssemblyReference.cache
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\WarCardGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\WarCardGame.AssemblyInfoInputs.cache
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\WarCardGame.AssemblyInfo.cs
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\WarCardGame.csproj.CoreCompileInputs.cache
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\bin\Debug\net6.0\WarCardGame.exe
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\bin\Debug\net6.0\WarCardGame.deps.json
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\bin\Debug\net6.0\WarCardGame.runtimeconfig.json
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\bin\Debug\net6.0\WarCardGame.dll
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\bin\Debug\net6.0\WarCardGame.pdb
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\WarCardGame.dll
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\refint\WarCardGame.dll
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\WarCardGame.pdb
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\WarCardGame.genruntimeconfig.cache
+C:\Users\Krzys\source\repos\WarCardGame\WarCardGame\obj\Debug\net6.0\ref\WarCardGame.dll
