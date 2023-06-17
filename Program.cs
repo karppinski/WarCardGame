@@ -1,4 +1,6 @@
-﻿namespace WarCardGame
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace WarCardGame
 {
     internal class Program
     {
@@ -63,10 +65,10 @@
             while (PlayAgain == true)
             {
                 Dictionary<Player, Card> table = new Dictionary<Player, Card>();
-
+     
                 foreach (Player player in playerList)
                 {
-                    Card Temp = player.Hand.Dequeue();// usuwnie playeera po zzerowaniu stacku 
+                    Card Temp = player.Hand.Dequeue();
                     table.Add(player , Temp);
                 }
 
@@ -74,18 +76,42 @@
                 {
                     Console.WriteLine("Player : {0} used {1} ",Pair.Key, Pair.Value );
                 }
-                table = table.OrderByDescending(entry => entry.Value.Rank)
-                       .ToDictionary(entry => entry.Key, entry => entry.Value);
+                table = table.OrderByDescending(pair => pair.Value.Rank)
+                       .ToDictionary(pair => pair.Key, pair => pair.Value);
                 //table = table.OrderByDescending(Card => Card.Value.Rank).ToDictionary<Player, Card>;
+                
+                
 
-                foreach (var Pair in table)
+
+                for (int i = 0; i < NrOfPlayers-1; i++) // check if values are not the same and if they are start the war
                 {
-                    Console.WriteLine("Player : {0}  dropped {1}", Pair.Key, Pair.Value);
+                    if (table.ElementAt(i).Value.Rank == (table.ElementAt(++i).Value.Rank))
+                    {
+                       
+                        int FirstPlayer = int.Parse(table.ElementAt(i-1).Key.Name.Substring(7));
+                        int SecondPlayer = int.Parse(table.ElementAt(i).Key.Name.Substring(7));
+
+
+                        Console.WriteLine("This is a war between {0} and {1} !",table.ElementAt(i-1).Key.Name,table.ElementAt(i).Key.Name);
+                        Dictionary<Player, Card> warTable = new Dictionary<Player, Card>();
+                        Card Temp1 = playerList[FirstPlayer].Hand.Dequeue();
+                        Card Temp2 = playerList[FirstPlayer].Hand.Dequeue();
+                        Card Temp3 = playerList[SecondPlayer].Hand.Dequeue();
+                        Card Temp4 = playerList[SecondPlayer].Hand.Dequeue();
+
+                        warTable.Add(Temp1, Temp2, Temp3, Temp4)// tutaj w chuj trzeba zmienic !!
+                        
+                        
+
+                            Console.ReadKey();
+                        break;
+
+                    }
                 }
+                
 
-                Console.ReadKey();
 
-             Console.WriteLine($"{table.First().Key.Name} won with: {table.First().Value}");
+             Console.WriteLine("{0} won with: {1}",table.First().Key.Name, table.First().Value);
 
                 Player winner = table.First().Key;
                 foreach(var Pair in table)
@@ -96,19 +122,36 @@
 
 
 
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 table.Clear();
 
+                List<Player> loosers = new List<Player>();
 
-
-
-
+                foreach (Player player1 in playerList)
+                {
+                    if (player1.Hand.Count <= 0)
+                    {
+                        loosers.Add(player1);
+                        Console.WriteLine("Player {0} lost !", player1.Name);
+                        NrOfPlayers--;
+                        Console.ReadKey();
+                    }
+                }
+                playerList.RemoveAll(p => p.Hand.Count <= 0);
+         
 
                 if (playerList.Count == 1 || playerList.Any(Player => Player.Hand.Count == 52))
 
                     {
                     PlayAgain = false;
                     }
+                Console.Clear();
+
+                static void War()
+                {
+
+                }
+
             }
             
             
