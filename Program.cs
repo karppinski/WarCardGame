@@ -83,27 +83,102 @@ namespace WarCardGame
                 
 
 
-                for (int i = 0; i < NrOfPlayers-1; i++) // check if values are not the same and if they are start the war
+                for (int i = 1; i < NrOfPlayers-1; i+= 2) // check if values are not the same and if they are start the war
                 {
-                    if (table.ElementAt(i).Value.Rank == (table.ElementAt(++i).Value.Rank))
+                    if (table.ElementAt(i).Value.Rank == (table.ElementAt(i + 1).Value.Rank))
                     {
+                        int FirstPlayerIndex = i-1;
+                        int SecondPlayerIndex = i ;
+
+                        int FirstPlayer = (int.Parse(table.ElementAt(FirstPlayerIndex).Key.Name.Substring(6)) -1 ) % NrOfPlayers;
+                        int SecondPlayer = (int.Parse(table.ElementAt(SecondPlayerIndex).Key.Name.Substring(6)) -1) % NrOfPlayers;
                        
-                        int FirstPlayer = int.Parse(table.ElementAt(i-1).Key.Name.Substring(7));
-                        int SecondPlayer = int.Parse(table.ElementAt(i).Key.Name.Substring(7));
-
-
-                        Console.WriteLine("This is a war between {0} and {1} !",table.ElementAt(i-1).Key.Name,table.ElementAt(i).Key.Name);
-                        Dictionary<Player, Card> warTable = new Dictionary<Player, Card>();
-                        Card Temp1 = playerList[FirstPlayer].Hand.Dequeue();
-                        Card Temp2 = playerList[FirstPlayer].Hand.Dequeue();
-                        Card Temp3 = playerList[SecondPlayer].Hand.Dequeue();
-                        Card Temp4 = playerList[SecondPlayer].Hand.Dequeue();
-
-                        warTable.Add(Temp1, Temp2, Temp3, Temp4)// tutaj w chuj trzeba zmienic !!
                         
-                        
+                        /*FirstPlayer -= NrOfPlayers % 4;
+                        SecondPlayer -= NrOfPlayers % 4;*/
 
-                            Console.ReadKey();
+                        bool again = true;
+                        if (playerList[FirstPlayer].Hand.Count < 1 )
+                        {
+                            Console.WriteLine("You don't have engouh cards to continue, opponent won ! ");
+                            Card card = playerList[FirstPlayer].Hand.Dequeue();
+                            playerList[SecondPlayer].Hand.Enqueue(card);
+
+
+                            again = false;
+
+                        }
+                        else if (playerList[SecondPlayer].Hand.Count < 1)
+                        {
+                            Console.WriteLine("You don't have engouh cards to continue, opponent won ! ");
+
+                            Card card = playerList[SecondPlayer].Hand.Dequeue();
+                            playerList[FirstPlayer].Hand.Enqueue(card);
+
+                            again = false;
+                        }
+                        
+                        while (again = true)
+                        {
+                            Console.WriteLine("This is a war between {0} and {1} !", table.ElementAt(i - 1).Key.Name, table.ElementAt(i).Key.Name);
+                            Console.WriteLine();
+
+                            Dictionary<Player, Card> warTableBlank = new Dictionary<Player, Card>();
+                            Dictionary<Player, Card> warTable = new Dictionary<Player, Card>();
+
+                            Player player1 = playerList[FirstPlayer];
+                            Player player2 = playerList[SecondPlayer];
+
+
+                            Card Temp1 = player1.Hand.Dequeue();
+                            Card Temp2 = player1.Hand.Dequeue();
+                            Card Temp3 = player2.Hand.Dequeue();
+                            Card Temp4 = player2.Hand.Dequeue();// tutaj empty ?
+
+
+                            Player FirstPlayerBlank = new Player(player1.Name + " blank ");
+                            Player SecondPlayerBlank = new Player(player2.Name + " blank ");
+
+
+                            warTableBlank.Add(FirstPlayerBlank, Temp1);
+                            Console.WriteLine("Blank card player 1 : {0}", Temp1);
+                            warTable.Add(playerList[FirstPlayer], Temp2);
+                            Console.WriteLine("War card player 1 : {0}", Temp2);
+
+                            warTableBlank.Add(SecondPlayerBlank, Temp3);
+                            Console.WriteLine("Blank card player 2 : {0}", Temp3);
+                            warTable.Add(playerList[SecondPlayer], Temp4);
+                            Console.WriteLine("War card player 2 : {0}", Temp4);
+
+                            warTable = warTable.OrderByDescending(pair => pair.Value.Rank)
+                           .ToDictionary(pair => pair.Key, pair => pair.Value);
+
+                            if(warTable.Count >= 2 && warTable.ElementAt(0).Value.Rank == (warTable.ElementAt(1).Value.Rank))
+                            { 
+                                Console.WriteLine("Another war !");
+                                continue;
+                            }
+
+                            again = false;
+
+                            Player warWinner = warTable.First().Key;
+                            Console.WriteLine("Player  {0} won ", warTable.First().Key);
+                            foreach (var Pair in warTable)
+                            {
+                                Card card = Pair.Value;
+                                warWinner.Hand.Enqueue(card);
+                            }
+                            foreach (var Pair in warTableBlank)
+                            {
+                                Card card = Pair.Value;
+                                warWinner.Hand.Enqueue(card);
+                            }
+
+                            break;
+
+                        }
+
+                        Console.ReadKey();
                         break;
 
                     }
@@ -132,7 +207,7 @@ namespace WarCardGame
                     if (player1.Hand.Count <= 0)
                     {
                         loosers.Add(player1);
-                        Console.WriteLine("Player {0} lost !", player1.Name);
+                        Console.WriteLine("{0} lost !", player1.Name);
                         NrOfPlayers--;
                         Console.ReadKey();
                     }
@@ -143,6 +218,8 @@ namespace WarCardGame
                 if (playerList.Count == 1 || playerList.Any(Player => Player.Hand.Count == 52))
 
                     {
+                    Console.WriteLine("Game is over! {0} won !", playerList[0].Name);
+                    Console.ReadKey();
                     PlayAgain = false;
                     }
                 Console.Clear();
