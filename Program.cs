@@ -1,4 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using static WarCardGame.cards;
+using static WarCardGame.Playerr;
+
+
 
 namespace WarCardGame
 {
@@ -297,45 +300,8 @@ namespace WarCardGame
         }
 
 
-        public enum Value
-        {
-            Two = 2, Three, Four, Five, Six, Seven, Eight, Nine, Ten,
-            Jack, Queen, King, Ace
-        }
-        public enum Color
-        {
-            Hearts, Diamonds, Clubs, Spades
-        }
-        public class Card
-        {
-            public Value Rank { get; set; }
-            public Color Suit { get; set; }
 
-            public override string ToString()
-            {
-                return $"{Rank} of {Suit}";
-            }
-
-
-        }
-
-        public class Player
-        {
-            public Player(string name)
-            {
-                Name = name;
-                Hand = new Queue<Card>();
-            }
-
-            public string Name { get; set; }    
-            public Queue<Card> Hand { get; set; }
-
-            public override string ToString()
-            {
-                return Name;
-            }
-
-        }
+        
 
     }
 }
